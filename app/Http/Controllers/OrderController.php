@@ -4,62 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function showCheckoutForm()
     {
-        //
+        $cart = session()->get('cart', []);
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+        }
+
+        return view('checkout', compact('cart'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function placeOrder(Request $request)
     {
-        //
-    }
+        $cart = session()->get('cart', []);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'payment_type' => 'required|string|in:credit_card,paypal,cash',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
+        Order::create([
+            'user_id' => Auth::check() ? Auth::id() : null,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'address' => $validated['address'],
+            'payment_type' => $validated['payment_type'],
+            'total_price' => $total,
+            'items' => $cart,
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
+        session()->forget('cart');
+
+        return redirect()->route('products.index')->with('success', 'Order placed successfully!');
     }
 }
