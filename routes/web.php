@@ -27,4 +27,5 @@ Route::middleware(['auth'])->group(function () {
     //Order entity
     Route::get('/checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.form');
     Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('checkout.submit');
+    Route::get('/admin/orders', [OrderController::class, 'viewAllOrders'])->name('admin.orders');
 });

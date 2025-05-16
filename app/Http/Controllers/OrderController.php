@@ -53,4 +53,11 @@ class OrderController extends Controller
 
         return redirect()->route('products.index')->with('success', 'Order placed successfully!');
     }
+
+    public function viewAllOrders()
+{
+    $orders = \App\Models\Order::latest()->get();
+
+    return view('admin.orders', compact('orders'));
+}
 }
