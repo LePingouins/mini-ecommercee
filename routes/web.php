@@ -21,4 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+
+    //Order entity
+    Route::get('/checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.form');
+    Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('checkout.submit');
 });
