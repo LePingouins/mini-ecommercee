@@ -47,7 +47,7 @@
             <input type="file" name="image" class="w-full border rounded px-3 py-2">
         </div>
 
-        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Save Product</button>
+        <button type="submit" class="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded">Save Product</button>
     </form>
 </div>
 @endsection

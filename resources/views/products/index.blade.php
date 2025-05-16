@@ -11,7 +11,10 @@
     @endif
 
     <div class="mb-4">
-        <a href="{{ route('products.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Add New Product</a>
+        <a href="{{ route('products.create') }}"
+            class="bg-gray-100 hover:bg-gray-200 text-black font-semibold px-4 py-2 rounded border border-gray-400 shadow">
+            Add New Product
+        </a>
     </div>
 
     <table class="w-full table-auto border-collapse">
@@ -32,17 +35,17 @@
                     <td class="px-4 py-2">${{ number_format($product->price, 2) }}</td>
                     <td class="px-4 py-2">{{ $product->stock_quantity }}</td>
                     <td class="px-4 py-2 space-x-2">
-                        <a href="{{ route('products.edit', $product) }}" class="text-blue-500 hover:underline">Edit</a>
+                        <a href="{{ route('products.edit', $product) }}" class="text-blue-600 hover:underline font-medium">Edit</a>
                         <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                            <button type="submit" class="text-red-600 hover:underline font-medium">Delete</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-2 text-center text-gray-500">No products found.</td>
+                    <td colspan="5" class="px-4 py-4 text-center text-gray-700 italic bg-gray-50">No products found.</td>
                 </tr>
             @endforelse
         </tbody>
