@@ -34,12 +34,19 @@
                     <td class="px-4 py-2">{{ $product->category }}</td>
                     <td class="px-4 py-2">${{ number_format($product->price, 2) }}</td>
                     <td class="px-4 py-2">{{ $product->stock_quantity }}</td>
-                    <td class="px-4 py-2 space-x-2">
-                        <a href="{{ route('products.edit', $product) }}" class="text-blue-600 hover:underline font-medium">Edit</a>
-                        <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?')">
+                    <td class="px-4 py-2 space-y-1">
+                        <a href="{{ route('products.edit', $product) }}" class="text-blue-600 hover:underline block font-medium">Edit</a>
+
+                        <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline-block">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline font-medium">Delete</button>
+                            <button type="submit" class="text-red-600 hover:underline block font-medium"
+                                onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline-block">
+                            @csrf
+                            <button type="submit" class="text-green-600 hover:underline block font-medium">Add to Cart</button>
                         </form>
                     </td>
                 </tr>
